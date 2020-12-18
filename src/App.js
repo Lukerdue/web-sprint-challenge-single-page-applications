@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PizzaForm from './components/pizzaForm';
 import Home from './components/home';
 import { Route, Switch } from 'react-router-dom';
@@ -22,6 +22,7 @@ const App = () => {
   //-----------------setting up state-----------------
   const [pizza, setPizza] = useState(initialValues)
   const [errors, setErrors] = useState(initialErrors)
+  const [disabled, setDisabled] = useState(true)
 
   //--------------------form handlers-----------------
   function changeHandler(evt){
@@ -45,9 +46,11 @@ const App = () => {
           ...errors,
           [name]:""
         })
+        
       })
       .catch(err=>{
         setErrors({...errors, [name]: err.errors[0]})
+        
       })//end yup validation
 
 
@@ -68,6 +71,13 @@ const App = () => {
       })
   }//end submit
 
+  //useEffect----------------------------------
+  useEffect(()=>{
+    schema.isValid(pizza).then(valid=>{
+      setDisabled(!valid);
+    });
+  },[pizza])
+
   return (
     <div className="app">
       <h1>Lambda Eats</h1>
@@ -76,7 +86,7 @@ const App = () => {
           <Home/>
         </Route>
         <Route path="/pizza">
-          <PizzaForm changeHandler={changeHandler} values={pizza} submit={submit} errors={errors}/>
+          <PizzaForm disabled={disabled} changeHandler={changeHandler} values={pizza} submit={submit} errors={errors}/>
         </Route>
       </Switch>
     </div>

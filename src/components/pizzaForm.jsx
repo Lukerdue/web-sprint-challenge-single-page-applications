@@ -30,7 +30,7 @@ function PizzaForm(props){
             </div>
             <textarea value={props.values.extra} onChange={props.changeHandler} placeholder="extra instructions"/>
             <br/><br/>
-            <button onClick={props.submit} className="submit">Order!</button>
+            <button disabled={props.disabled} onClick={props.submit} className="submit">Order!</button>
         </form>
         </div>
     )
