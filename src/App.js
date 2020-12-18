@@ -15,7 +15,8 @@ const initialValues = {
 const initialErrors = {
   name: "",
   size: "",
-  sauce: ""
+  sauce: "",
+  extra: "",
 }
 const App = () => {
   //-----------------setting up state-----------------
